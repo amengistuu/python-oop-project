@@ -1,3 +1,5 @@
+import csv
+
 class Item:
 	pay_rate = 0.8 # the pay rate after 20% discount
 	all =[]
@@ -20,19 +22,39 @@ class Item:
 	
 	def apply_discount(self):
 		self.price = self.price * self.pay_rate
+
+	# this method is designed for instantiating the object itself, so it can not be called from the instance itself
+	# this method needs to be converted to a class method w/ a decarator 
+	
+	@classmethod
+	def instantiate_from_csv(cls): # the class method must receive the class itself as an argument (labeled 'cls' instead of 'self' for less confusion)
+		# using context manager - no need to close file
+		with open('items.csv', 'r') as f:
+			reader = csv.DictReader(f)
+			items = list(reader)
+		for item in items:
+			Item(
+				name=item.get('name'),
+				price=float(item.get('price')),
+				quantity=int(item.get('quantity')),
+			)
+	
+	# static methods are not sending the instance as a first method, unlike the class methods. It is like a regular function that receives paramters.
+	@staticmethod
+	def is_integer(num):
+		# we will count out the floats that are point zero
+		# for example, 5.0, 10.0
+		if isinstance(num, float):
+			# Count out the floats that are point zero
+			return num.is_integer()
+		elif isinstance(num, int):
+			return True
+		else:
+			return False
 	
 	def __repr__(self):
 		# return the object in the same way we create them - this is best practice
 		return f"Item('{self.name}', {self.price}, {self.quantity})"
 
-
-item1 = Item("Phone", 100, 1)
-item2 = Item("Laptop", 1000, 3)
-item3 = Item("Cable", 10, 5)
-item4 = Item("Mouse", 50, 5)
-item5 = Item("Keyboard", 75, 5)
-
-print(Item.all)
-
-# class attribute is an attriubte that belongs to the class, but you can access it
-# from the instance level as well
+# General notes:
+# class attribute is an attribute that belongs to the class, but you can access it from the instance level as well
