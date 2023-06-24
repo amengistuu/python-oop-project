@@ -11,11 +11,21 @@ class Item:
 
         # assign to self object
         self.__name = name
-        self.price = price
+        self.__price = price
         self.quantity = quantity
 
         # actions to execute
         Item.all.append(self) 
+
+    @property
+    def price(self):
+        return self.__price
+    
+    def apply_discount(self):
+        self.__price = self.__price * self.pay_rate
+
+    def apply_increment(self, increment_value):
+        self.__price = self.__price + self.__price * increment_value
 
     @property
     # property decorator = read-only attribute
@@ -31,13 +41,10 @@ class Item:
         self.__name = value
 
     def calculate_total_price(self):
-        return self.price * self.quantity
+        return self.__price * self.quantity
 
-    def apply_discount(self):
-        self.price = self.price * self.pay_rate
     # this method is designed for instantiating the object itself, so it can not be called from the instance itself
     # this method needs to be converted to a class method w/ a decarator 
-
     @classmethod
     def instantiate_from_csv(cls): # the class method must receive the class itself as an argument (labeled 'cls' instead of 'self' for less confusion)
         # using context manager - no need to close file

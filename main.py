@@ -3,8 +3,7 @@ from item import Item
 
 item1 = Item("MyItem", 750)
 
-# setting an attribute
-item1.name = "OtherItem"
+item1.apply_increment(0.2)
+item1.apply_discount()
 
-# getting an attribute
-print(item1.__name)
+print(item1.price)
