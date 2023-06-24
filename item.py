@@ -74,3 +74,21 @@ class Item:
     def __repr__(self):
         # return the object in the same way we create them - this is best practice
         return f"{self.__class__.__name__}('{self.name}', {self.price}, {self.quantity})"
+    
+    def __connect(self): # as an example smpt_server would be the second parameter
+        pass
+
+    def __prepare_body(self):
+        return f'''
+        Hello.
+        We have {self.quantity} {self.name}'s left.
+        Regards, John Smith
+        '''
+    
+    def __send(Self):
+        pass
+
+    def send_email(self):
+        self.__connect()
+        self.__prepare_body()
+        self.__send()
